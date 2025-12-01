@@ -21,9 +21,7 @@ func day1Part1(filename string) {
 			continue
 		}
 		left := lines[i][0] == 'L'
-		t := strings.Trim(lines[i], "R")
-		t = strings.Trim(t, "L")
-		a, _ := strconv.Atoi(t)
+		a, _ := strconv.Atoi(lines[i][1:])
 		if left {
 			curr -= a
 		} else {
@@ -51,9 +49,7 @@ func day1Part2(filename string) {
 			continue
 		}
 		left := lines[i][0] == 'L'
-		t := strings.Trim(lines[i], "R")
-		t = strings.Trim(t, "L")
-		a, _ := strconv.Atoi(t)
+		a, _ := strconv.Atoi(lines[i][1:])
 		for range a {
 			if left {
 				curr -= 1
