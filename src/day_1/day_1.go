@@ -74,3 +74,8 @@ func day1Part2(filename string) {
 	}
 	fmt.Printf("Answer to day 1 part 2: %d\n", cnt)
 }
+
+func main() {
+	day1Part1(os.Args[1])
+	day1Part2(os.Args[1])
+}
