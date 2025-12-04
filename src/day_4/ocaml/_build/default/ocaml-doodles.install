@@ -1,0 +1,8 @@
+lib: [
+  "_build/install/default/lib/ocaml-doodles/META"
+  "_build/install/default/lib/ocaml-doodles/dune-package"
+  "_build/install/default/lib/ocaml-doodles/opam"
+]
+bin: [
+  "_build/install/default/bin/ocaml-doodles"
+]

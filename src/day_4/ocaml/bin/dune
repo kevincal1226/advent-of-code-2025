@@ -1,0 +1,5 @@
+(executable
+ (public_name ocaml-doodles)
+ (name main)
+ (libraries ocaml_doodles core)
+ (flags (:standard -warn-error -A)))
