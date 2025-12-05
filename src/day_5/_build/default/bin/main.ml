@@ -27,13 +27,16 @@ let part_1 () =
 
 let () = Printf.printf "%i\n" (part_1 ())
 
-let rec merge_intervals curr tail =
-  match tail with
-  | head :: tail ->
-    if head.(0) >= curr.(0) && head.(0) <= curr.(1)
-    then merge_intervals [| curr.(0); max head.(1) curr.(1) |] tail
-    else curr :: merge_intervals head tail
-  | [] -> [ curr ]
+let merge_intervals intervals =
+  let rec merger curr tail =
+    match tail with
+    | head :: tail ->
+      if head.(0) >= curr.(0) && head.(0) <= curr.(1)
+      then merger [| curr.(0); max head.(1) curr.(1) |] tail
+      else curr :: merger head tail
+    | [] -> [ curr ]
+  in
+  merger (List.hd_exn intervals) (List.tl_exn intervals)
 ;;
 
 let part_2 () =
@@ -50,11 +53,9 @@ let part_2 () =
         nums :: parser ())
     | None -> []
   in
-  let input = parser () in
-  let sorted = List.sort input ~compare:(fun f g -> Int.compare f.(0) g.(0)) in
-  (match sorted with
-   | head :: tail -> merge_intervals head tail
-   | [] -> [])
+  parser ()
+  |> List.sort ~compare:(fun f g -> Int.compare f.(0) g.(0))
+  |> merge_intervals
   |> List.fold ~init:0 ~f:(fun acc a -> acc + a.(1) - a.(0) + 1)
 ;;
 
