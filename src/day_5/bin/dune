@@ -1,0 +1,5 @@
+(executable
+ (public_name day_5)
+ (name main)
+ (libraries day_5 core)
+ (flags (:standard -warn-error -A)))
