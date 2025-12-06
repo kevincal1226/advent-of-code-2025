@@ -72,8 +72,6 @@ auto part_2(const char* filename) -> uint64_t {
         }
     }
 
-    std::ranges::for_each(verticals, [](auto& a) { std::println("{}", a); });
-
     std::ranges::for_each(verticals, [&](std::string& vert) {
         boost::algorithm::trim(vert);
         if (vert.empty()) {
