@@ -19,24 +19,26 @@ let read_input filename =
   parser ()
 ;;
 
+let get_edges points =
+  points
+  |> List.concat_mapi ~f:(fun a_idx a ->
+    points
+    |> List.filter_mapi ~f:(fun b_idx b ->
+      if b_idx <= a_idx
+      then None
+      else
+        Some
+          ( List.zip_exn a b |> List.fold_left ~init:0 ~f:(fun acc (x1, x2) -> acc + ((x1 - x2) * (x1 - x2)))
+          , a_idx
+          , b_idx
+          , a
+          , b )))
+  |> List.sort ~compare:(fun (dst1, _, _, _, _) (dst2, _, _, _, _) -> Int.compare dst1 dst2)
+;;
+
 let part1 points =
   let reps = Array.init (List.length points) ~f:Fun.id in
-  let edges =
-    points
-    |> List.concat_mapi ~f:(fun a_idx a ->
-      points
-      |> List.filter_mapi ~f:(fun b_idx b ->
-        if b_idx <= a_idx
-        then None
-        else
-          Some
-            ( List.zip_exn a b |> List.fold_left ~init:0 ~f:(fun acc (x1, x2) -> acc + ((x1 - x2) * (x1 - x2)))
-            , a_idx
-            , b_idx
-            , a
-            , b )))
-    |> List.sort ~compare:(fun (dst1, _, _, _, _) (dst2, _, _, _, _) -> Int.compare dst1 dst2)
-  in
+  let edges = get_edges points in
   List.take edges 1000 |> List.iter ~f:(fun (_, a_idx, b_idx, _, _) -> union a_idx b_idx reps);
   let components = Array.init (List.length points) ~f:(fun _ -> 0) in
   reps |> Array.iter ~f:(fun rep -> components.(find rep reps) <- 1 + components.(find rep reps));
@@ -46,22 +48,7 @@ let part1 points =
 
 let part2 points =
   let reps = Array.init (List.length points) ~f:Fun.id in
-  let edges =
-    points
-    |> List.concat_mapi ~f:(fun a_idx a ->
-      points
-      |> List.filter_mapi ~f:(fun b_idx b ->
-        if b_idx <= a_idx
-        then None
-        else
-          Some
-            ( List.zip_exn a b |> List.fold_left ~init:0 ~f:(fun acc (x1, x2) -> acc + ((x1 - x2) * (x1 - x2)))
-            , a_idx
-            , b_idx
-            , a
-            , b )))
-    |> List.sort ~compare:(fun (dst1, _, _, _, _) (dst2, _, _, _, _) -> Int.compare dst1 dst2)
-  in
+  let edges = get_edges points in
   let rec krusteez edges =
     match edges with
     | [] -> failwith "urbad"
