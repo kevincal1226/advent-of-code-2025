@@ -52,7 +52,7 @@ let part2 points =
   |> List.fold_left ~init:0 ~f:(fun acc (_, a_idx, b_idx, a, b) ->
     if not (phys_equal (find a_idx reps) (find b_idx reps))
     then (
-      let () = union a_idx b_idx reps in
+      union a_idx b_idx reps;
       List.hd_exn a * List.hd_exn b)
     else acc)
 ;;
