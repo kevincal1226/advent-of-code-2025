@@ -19,12 +19,6 @@ class Edge:
     def __lt__(self, other):
         return self.dist > other.dist
 
-    def __str__(self) -> str:
-        return f"{self.a_pts}, {self.b_pts}, {self.dist}\n"
-
-    def __repr__(self) -> str:
-        return self.__str__()
-
 
 def find(a: int, reps: List) -> int:
     if reps[a] != a:
