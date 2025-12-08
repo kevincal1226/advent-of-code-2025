@@ -48,17 +48,13 @@ let part1 points =
 
 let part2 points =
   let reps = Array.init (List.length points) ~f:Fun.id in
-  let edges = get_edges points in
-  let rec krusteez edges =
-    match edges with
-    | [] -> failwith "urbad"
-    | (_, a_idx, b_idx, a, b) :: tail ->
+  get_edges points
+  |> List.fold_left ~init:0 ~f:(fun acc (_, a_idx, b_idx, a, b) ->
+    if not (phys_equal (find a_idx reps) (find b_idx reps))
+    then (
       let () = union a_idx b_idx reps in
-      if reps |> Array.for_all ~f:(fun i -> phys_equal (find i reps) (find reps.(0) reps))
-      then List.hd_exn a * List.hd_exn b
-      else krusteez tail
-  in
-  edges |> krusteez
+      List.hd_exn a * List.hd_exn b)
+    else acc)
 ;;
 
 "../input.txt" |> read_input |> part1 |> Printf.printf "%i\n";;
